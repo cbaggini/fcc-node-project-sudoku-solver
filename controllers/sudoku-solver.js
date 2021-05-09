@@ -1,7 +1,13 @@
 class SudokuSolver {
   validate(puzzleString) {
-    const validationRegex = new RegExp("[^.0-9]+", "g");
-    return puzzleString.length === 81 && validationRegex.test(puzzleString);
+    let isValid = /^[\\.|1-9]+$/g.test(puzzleString);
+    if (puzzleString.length === 81 && isValid) {
+      return true;
+    } else if (puzzleString.length === 81) {
+      return { error: "Invalid characters in puzzle" };
+    } else {
+      return { error: "Expected puzzle to be 81 characters long" };
+    }
   }
 
   checkRowPlacement(puzzleString, row, column, value) {
@@ -56,9 +62,9 @@ class SudokuSolver {
       isUnsolved = result.includes(".");
       for (let i = 0; i < result.length; i++) {
         if (result[i] === ".") {
-          // get row letter and column number from index
-          const row;
-          const column;
+          // TODO: get row letter and column number from index
+          const row = "A";
+          const column = 1;
           const possibleNumbers = numbers.filter(
             (el) =>
               this.checkRowPlacement(result, row, column, result[i]) ||
