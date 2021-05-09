@@ -1,4 +1,3 @@
-const numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 class SudokuSolver {
   validate(puzzleString) {
     const validationRegex = new RegExp("[^.0-9]+", "g");
@@ -8,7 +7,6 @@ class SudokuSolver {
   checkRowPlacement(puzzleString, row, column, value) {
     const rowStart = (row.charCodeAt(0) - 65) * 9;
     const rowString = puzzleString.slice(rowStart, rowStart + 9);
-    // see if value is not in row, unless is at position
     const rowArray = rowString.split("");
     rowArray.splice(column - 1, 1);
     return rowArray.every((el) => el !== value);
@@ -50,7 +48,30 @@ class SudokuSolver {
     return regionArray.every((el) => el !== value);
   }
 
-  solve(puzzleString) {}
+  solve(puzzleString) {
+    const numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+    let isUnsolved = false;
+    let result = puzzleString;
+    while (isUnsolved) {
+      isUnsolved = result.includes(".");
+      for (let i = 0; i < result.length; i++) {
+        if (result[i] === ".") {
+          // get row letter and column number from index
+          const row;
+          const column;
+          const possibleNumbers = numbers.filter(
+            (el) =>
+              this.checkRowPlacement(result, row, column, result[i]) ||
+              this.checkColPlacement(result, row, column, result[i]) ||
+              this.checkRegionPlacement(result, row, column, result[i])
+          );
+          if (possibleNumbers.length === 1) {
+            result[i] = possibleNumbers[0];
+          }
+        }
+      }
+    }
+  }
 }
 
 module.exports = SudokuSolver;
