@@ -55,28 +55,30 @@ class SudokuSolver {
   }
 
   solve(puzzleString) {
-    const numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-    let isUnsolved = false;
-    let result = puzzleString;
+    const numbers = ["1", "2", "3", "4", "5", "6", "7", "8", "9"];
+    let isUnsolved = true;
+    let result = puzzleString.split("");
     while (isUnsolved) {
       isUnsolved = result.includes(".");
       for (let i = 0; i < result.length; i++) {
         if (result[i] === ".") {
-          // TODO: get row letter and column number from index
-          const row = "A";
-          const column = 1;
+          const row = String.fromCharCode(Math.floor(i / 9) + 65);
+          const column = (i % 9) + 1;
+          const testString = result.join("");
           const possibleNumbers = numbers.filter(
             (el) =>
-              this.checkRowPlacement(result, row, column, result[i]) ||
-              this.checkColPlacement(result, row, column, result[i]) ||
-              this.checkRegionPlacement(result, row, column, result[i])
+              this.checkRowPlacement(testString, row, column, el) &&
+              this.checkColPlacement(testString, row, column, el) &&
+              this.checkRegionPlacement(testString, row, column, el)
           );
+          console.log(possibleNumbers);
           if (possibleNumbers.length === 1) {
             result[i] = possibleNumbers[0];
           }
         }
       }
     }
+    return result;
   }
 }
 

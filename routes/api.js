@@ -8,8 +8,9 @@ module.exports = function (app) {
   app.route("/api/check").post((req, res) => {
     let { puzzle, coordinate, value } = req.body;
     console.log(puzzle);
-    //console.log(solver.validate(puzzle));
-    console.log(solver.checkColPlacement(puzzle, "G", 2, "3"));
+    // console.log(solver.validate(puzzle));
+    // console.log(solver.checkRegionPlacement(puzzle, "G", 2, "1"));
+    console.log(solver.solve(puzzle));
     result = { valid: false, conflict: ["row", "column", "region"] };
     res.send("ok");
   });
