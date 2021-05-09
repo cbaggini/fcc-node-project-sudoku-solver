@@ -58,6 +58,8 @@ class SudokuSolver {
     const numbers = ["1", "2", "3", "4", "5", "6", "7", "8", "9"];
     let isUnsolved = true;
     let result = puzzleString.split("");
+    let attemptsArray = new Array(81).fill(0);
+    // Think I need to do something like looking at all numbers from zero to nine not just the possible ones, but think about invalid ones
     while (isUnsolved) {
       isUnsolved = result.includes(".");
       for (let i = 0; i < result.length; i++) {
@@ -71,9 +73,13 @@ class SudokuSolver {
               this.checkColPlacement(testString, row, column, el) &&
               this.checkRegionPlacement(testString, row, column, el)
           );
+          result[i] = possibleNumbers[attemptsArray[i]];
+          attemptsArray[i] =
+            attemptsArray[i] < possibleNumbers.length ? attemptsArray[i]++ : 0;
           console.log(possibleNumbers);
-          if (possibleNumbers.length === 1) {
-            result[i] = possibleNumbers[0];
+          if (possibleNumbers.length === 0) {
+            console.log("backtrack");
+            result = puzzleString.split("");
           }
         }
       }
