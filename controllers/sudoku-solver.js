@@ -19,10 +19,10 @@ class SudokuSolver {
   }
 
   checkColPlacement(puzzleString, row, column, value) {
-    const columnString = puzzleString.filter(
+    const puzzleArray = puzzleString.split("");
+    const columnArray = puzzleArray.filter(
       (el, index) => index % 9 === column - 1
     );
-    const columnArray = columnString.split("");
     columnArray.splice(row.charCodeAt(0) - 65, 1);
     return columnArray.every((el) => el !== value);
   }
@@ -36,7 +36,7 @@ class SudokuSolver {
     }
     const regionStart = rowIndex * 9;
     let allRegionString = puzzleString.slice(regionStart, regionStart + 27);
-    let columnIndex = column;
+    let columnIndex = column - 1;
     let columnCounter = 0;
     while (columnIndex % 3 !== 0) {
       columnIndex--;
@@ -45,12 +45,12 @@ class SudokuSolver {
     let regionString = "";
     for (let i = 0; i <= 2; i++) {
       regionString += allRegionString.slice(
-        columnIndex + i * 3,
-        columnIndex + i * 3 + 3
+        columnIndex + i * 9,
+        columnIndex + i * 9 + 3
       );
     }
     const regionArray = regionString.split("");
-    regionArray.splice(columnIndex * 3 + rowIndex, 1);
+    regionArray.splice(columnCounter * 3 + rowCounter, 1);
     return regionArray.every((el) => el !== value);
   }
 
