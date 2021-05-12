@@ -55,36 +55,38 @@ class SudokuSolver {
   }
 
   solve(puzzleString) {
-    const numbers = ["1", "2", "3", "4", "5", "6", "7", "8", "9"];
-    let isUnsolved = true;
     let result = puzzleString.split("");
-    let attemptsArray = new Array(81).fill(0);
-    // Think I need to do something like looking at all numbers from zero to nine not just the possible ones, but think about invalid ones
-    while (isUnsolved) {
-      isUnsolved = result.includes(".");
+
+    const solverFunc = (result) => {
       for (let i = 0; i < result.length; i++) {
         if (result[i] === ".") {
-          const row = String.fromCharCode(Math.floor(i / 9) + 65);
-          const column = (i % 9) + 1;
-          const testString = result.join("");
-          const possibleNumbers = numbers.filter(
-            (el) =>
-              this.checkRowPlacement(testString, row, column, el) &&
-              this.checkColPlacement(testString, row, column, el) &&
-              this.checkRegionPlacement(testString, row, column, el)
-          );
-          result[i] = possibleNumbers[attemptsArray[i]];
-          attemptsArray[i] =
-            attemptsArray[i] < possibleNumbers.length ? attemptsArray[i]++ : 0;
-          console.log(possibleNumbers);
-          if (possibleNumbers.length === 0) {
-            console.log("backtrack");
-            result = puzzleString.split("");
+          for (let value = 1; value < 10; value++) {
+            const row = String.fromCharCode(Math.floor(i / 9) + 65);
+            const column = (i % 9) + 1;
+            const testString = result.join("");
+            if (
+              this.checkRowPlacement(testString, row, column, String(value)) &&
+              this.checkColPlacement(testString, row, column, String(value)) &&
+              this.checkRegionPlacement(testString, row, column, String(value))
+            ) {
+              result[i] = String(value);
+              if (!result.includes(".")) {
+                return true;
+              } else {
+                if (solverFunc(result)) {
+                  return true;
+                } else {
+                  result[i] = ".";
+                }
+              }
+            }
           }
+          break;
         }
       }
-    }
-    return result;
+    };
+    solverFunc(result);
+    return result.join("");
   }
 }
 
