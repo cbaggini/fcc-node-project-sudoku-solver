@@ -16,7 +16,11 @@ module.exports = function (app) {
         parseInt(coords[1] > 9 || parseInt(coords[1]) < 1)
       ) {
         res.json({ error: "Invalid coordinate" });
-      } else if (parseInt(value) > 9 || parseInt(value) < 1) {
+      } else if (
+        !Number.isInteger(parseInt(value)) ||
+        parseInt(value) > 9 ||
+        parseInt(value) < 1
+      ) {
         res.json({ error: "Invalid value" });
       } else {
         if (
