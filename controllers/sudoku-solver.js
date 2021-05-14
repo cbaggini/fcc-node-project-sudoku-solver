@@ -57,6 +57,10 @@ class SudokuSolver {
   solve(puzzleString) {
     let result = puzzleString.split("");
 
+    if (this.validate(puzzleString).error) {
+      return { error: "invalid puzzle" };
+    }
+
     const solverFunc = (result) => {
       for (let i = 0; i < result.length; i++) {
         if (result[i] === ".") {
