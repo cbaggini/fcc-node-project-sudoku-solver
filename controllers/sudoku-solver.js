@@ -58,7 +58,7 @@ class SudokuSolver {
     let result = puzzleString.split("");
 
     if (this.validate(puzzleString).error) {
-      return { error: "invalid puzzle" };
+      return this.validate(puzzleString);
     }
 
     const solverFunc = (result) => {
@@ -90,7 +90,11 @@ class SudokuSolver {
       }
     };
     solverFunc(result);
-    return result.join("");
+    const newResult = result.join("");
+    if (newResult === puzzleString) {
+      return { error: "Puzzle cannot be solved" };
+    }
+    return newResult;
   }
 }
 

@@ -108,7 +108,7 @@ suite("UnitTests", () => {
       solver.solve(
         "1.5..2.84..6.12.7.2..5.....9..1....8.2.3674.3.7.2..9.47...8..1..16....926914.37."
       ).error,
-      "invalid puzzle"
+      "Expected puzzle to be 81 characters long"
     );
   });
   test("Solver returns the the expected solution for an incomplete puzzle", function () {
